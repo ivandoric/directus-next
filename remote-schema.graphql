@@ -1,0 +1,363 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+type Query {
+    categories(filter: categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [categories]
+    categories_aggregated(filter: categories_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [categories_aggregated]
+    categories_by_id(id: ID!): categories
+    posts(filter: posts_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [posts]
+    posts_aggregated(filter: posts_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [posts_aggregated]
+    posts_by_id(id: ID!): posts
+    products(filter: products_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products]
+    products_aggregated(filter: products_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [products_aggregated]
+    products_by_id(id: ID!): products
+    products_categories(filter: products_categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories]
+    products_categories_1(filter: products_categories_1_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories_1]
+    products_categories_1_aggregated(filter: products_categories_1_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [products_categories_1_aggregated]
+    products_categories_1_by_id(id: ID!): products_categories_1
+    products_categories_aggregated(filter: products_categories_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [products_categories_aggregated]
+    products_categories_by_id(id: ID!): products_categories
+}
+
+type categories {
+    category_name: String
+    date_created: Date
+    date_created_func: datetime_functions
+    date_updated: Date
+    date_updated_func: datetime_functions
+    id: ID
+    slug: String
+    sort: Int
+    status: String!
+    user_created: String
+    user_updated: String
+}
+
+type categories_aggregated {
+    avg: categories_aggregated_fields
+    avgDistinct: categories_aggregated_fields
+    count: categories_aggregated_fields
+    countDistinct: categories_aggregated_fields
+    group: JSON
+    max: categories_aggregated_fields
+    min: categories_aggregated_fields
+    sum: categories_aggregated_fields
+    sumDistinct: categories_aggregated_fields
+}
+
+type categories_aggregated_fields {
+    id: Float
+    sort: Float
+}
+
+type datetime_functions {
+    day: Int
+    hour: Int
+    minute: Int
+    month: Int
+    second: Int
+    week: Int
+    weekday: Int
+    year: Int
+}
+
+type directus_files {
+    charset: String
+    description: String
+    duration: Int
+    embed: String
+    filename_disk: String
+    filename_download: String!
+    filesize: Int
+    folder: String
+    height: Int
+    id: ID
+    location: String
+    metadata: JSON
+    modified_by: String
+    modified_on: Date!
+    modified_on_func: datetime_functions
+    storage: String!
+    tags: JSON
+    title: String
+    type: String
+    uploaded_by: String
+    uploaded_on: Date!
+    uploaded_on_func: datetime_functions
+    width: Int
+}
+
+type posts {
+    body: String
+    date_created: Date
+    date_created_func: datetime_functions
+    date_updated: Date
+    date_updated_func: datetime_functions
+    featured_image(filter: directus_files_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): directus_files
+    id: ID
+    slug: String
+    sort: Int
+    status: String!
+    title: String
+    user_created: String
+    user_updated: String
+}
+
+type posts_aggregated {
+    avg: posts_aggregated_fields
+    avgDistinct: posts_aggregated_fields
+    count: posts_aggregated_fields
+    countDistinct: posts_aggregated_fields
+    group: JSON
+    max: posts_aggregated_fields
+    min: posts_aggregated_fields
+    sum: posts_aggregated_fields
+    sumDistinct: posts_aggregated_fields
+}
+
+type posts_aggregated_fields {
+    id: Float
+    sort: Float
+}
+
+type products {
+    date_created: Date
+    date_created_func: datetime_functions
+    date_updated: Date
+    date_updated_func: datetime_functions
+    id: ID
+    price: String
+    product_categories(filter: products_categories_1_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories_1]
+    product_description: String
+    product_image(filter: directus_files_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): directus_files
+    product_name: String
+    slug: String
+    sort: Int
+    status: String!
+    user_created: String
+    user_updated: String
+}
+
+type products_aggregated {
+    avg: products_aggregated_fields
+    avgDistinct: products_aggregated_fields
+    count: products_aggregated_fields
+    countDistinct: products_aggregated_fields
+    group: JSON
+    max: products_aggregated_fields
+    min: products_aggregated_fields
+    sum: products_aggregated_fields
+    sumDistinct: products_aggregated_fields
+}
+
+type products_aggregated_fields {
+    id: Float
+    sort: Float
+}
+
+type products_categories {
+    categories_id(filter: categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): categories
+    id: ID
+    products_id(filter: products_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): products
+}
+
+type products_categories_1 {
+    categories_id(filter: categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): categories
+    id: ID
+    products_id(filter: products_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): products
+}
+
+type products_categories_1_aggregated {
+    avg: products_categories_1_aggregated_fields
+    avgDistinct: products_categories_1_aggregated_fields
+    count: products_categories_1_aggregated_fields
+    countDistinct: products_categories_1_aggregated_fields
+    group: JSON
+    max: products_categories_1_aggregated_fields
+    min: products_categories_1_aggregated_fields
+    sum: products_categories_1_aggregated_fields
+    sumDistinct: products_categories_1_aggregated_fields
+}
+
+type products_categories_1_aggregated_fields {
+    categories_id: Float
+    id: Float
+    products_id: Float
+}
+
+type products_categories_aggregated {
+    avg: products_categories_aggregated_fields
+    avgDistinct: products_categories_aggregated_fields
+    count: products_categories_aggregated_fields
+    countDistinct: products_categories_aggregated_fields
+    group: JSON
+    max: products_categories_aggregated_fields
+    min: products_categories_aggregated_fields
+    sum: products_categories_aggregated_fields
+    sumDistinct: products_categories_aggregated_fields
+}
+
+type products_categories_aggregated_fields {
+    categories_id: Float
+    id: Float
+    products_id: Float
+}
+
+"ISO8601 Date values"
+scalar Date
+
+"The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."
+scalar JSON
+
+input categories_filter {
+    _and: [categories_filter]
+    _or: [categories_filter]
+    category_name: string_filter_operators
+    date_created: date_filter_operators
+    date_created_func: datetime_function_filter_operators
+    date_updated: date_filter_operators
+    date_updated_func: datetime_function_filter_operators
+    id: number_filter_operators
+    slug: string_filter_operators
+    sort: number_filter_operators
+    status: string_filter_operators
+    user_created: string_filter_operators
+    user_updated: string_filter_operators
+}
+
+input date_filter_operators {
+    _eq: String
+    _gt: String
+    _gte: String
+    _lt: String
+    _lte: String
+    _neq: String
+    _nnull: Boolean
+    _null: Boolean
+}
+
+input datetime_function_filter_operators {
+    day: number_filter_operators
+    hour: number_filter_operators
+    minute: number_filter_operators
+    month: number_filter_operators
+    second: number_filter_operators
+    week: number_filter_operators
+    weekday: number_filter_operators
+    year: number_filter_operators
+}
+
+input directus_files_filter {
+    _and: [directus_files_filter]
+    _or: [directus_files_filter]
+    charset: string_filter_operators
+    description: string_filter_operators
+    duration: number_filter_operators
+    embed: string_filter_operators
+    filename_disk: string_filter_operators
+    filename_download: string_filter_operators
+    filesize: number_filter_operators
+    folder: string_filter_operators
+    height: number_filter_operators
+    id: string_filter_operators
+    location: string_filter_operators
+    metadata: string_filter_operators
+    modified_by: string_filter_operators
+    modified_on: date_filter_operators
+    modified_on_func: datetime_function_filter_operators
+    storage: string_filter_operators
+    tags: string_filter_operators
+    title: string_filter_operators
+    type: string_filter_operators
+    uploaded_by: string_filter_operators
+    uploaded_on: date_filter_operators
+    uploaded_on_func: datetime_function_filter_operators
+    width: number_filter_operators
+}
+
+input number_filter_operators {
+    _eq: Float
+    _gt: Float
+    _gte: Float
+    _in: [Float]
+    _lt: Float
+    _lte: Float
+    _neq: Float
+    _nin: [Float]
+    _nnull: Boolean
+    _null: Boolean
+}
+
+input posts_filter {
+    _and: [posts_filter]
+    _or: [posts_filter]
+    body: string_filter_operators
+    date_created: date_filter_operators
+    date_created_func: datetime_function_filter_operators
+    date_updated: date_filter_operators
+    date_updated_func: datetime_function_filter_operators
+    featured_image: directus_files_filter
+    id: number_filter_operators
+    slug: string_filter_operators
+    sort: number_filter_operators
+    status: string_filter_operators
+    title: string_filter_operators
+    user_created: string_filter_operators
+    user_updated: string_filter_operators
+}
+
+input products_categories_1_filter {
+    _and: [products_categories_1_filter]
+    _or: [products_categories_1_filter]
+    categories_id: categories_filter
+    id: number_filter_operators
+    products_id: products_filter
+}
+
+input products_categories_filter {
+    _and: [products_categories_filter]
+    _or: [products_categories_filter]
+    categories_id: categories_filter
+    id: number_filter_operators
+    products_id: products_filter
+}
+
+input products_filter {
+    _and: [products_filter]
+    _or: [products_filter]
+    date_created: date_filter_operators
+    date_created_func: datetime_function_filter_operators
+    date_updated: date_filter_operators
+    date_updated_func: datetime_function_filter_operators
+    id: number_filter_operators
+    price: string_filter_operators
+    product_categories: products_categories_1_filter
+    product_description: string_filter_operators
+    product_image: directus_files_filter
+    product_name: string_filter_operators
+    slug: string_filter_operators
+    sort: number_filter_operators
+    status: string_filter_operators
+    user_created: string_filter_operators
+    user_updated: string_filter_operators
+}
+
+input string_filter_operators {
+    _contains: String
+    _empty: Boolean
+    _ends_with: String
+    _eq: String
+    _in: [String]
+    _ncontains: String
+    _nempty: Boolean
+    _nends_with: String
+    _neq: String
+    _nin: [String]
+    _nnull: Boolean
+    _nstarts_with: String
+    _null: Boolean
+    _starts_with: String
+}

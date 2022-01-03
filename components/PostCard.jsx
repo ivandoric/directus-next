@@ -11,5 +11,5 @@ export default function PostCard({image, title, body}) {
                     </p>
                 </div>
         </div>
-)
+    )
 }
