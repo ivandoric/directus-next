@@ -15,9 +15,6 @@ type Query {
     products_aggregated(filter: products_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [products_aggregated]
     products_by_id(id: ID!): products
     products_categories(filter: products_categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories]
-    products_categories_1(filter: products_categories_1_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories_1]
-    products_categories_1_aggregated(filter: products_categories_1_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [products_categories_1_aggregated]
-    products_categories_1_by_id(id: ID!): products_categories_1
     products_categories_aggregated(filter: products_categories_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [products_categories_aggregated]
     products_categories_by_id(id: ID!): products_categories
 }
@@ -29,6 +26,7 @@ type categories {
     date_updated: Date
     date_updated_func: datetime_functions
     id: ID
+    products(filter: products_categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories]
     slug: String
     sort: Int
     status: String!
@@ -124,13 +122,13 @@ type posts_aggregated_fields {
 }
 
 type products {
+    category(filter: products_categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories]
     date_created: Date
     date_created_func: datetime_functions
     date_updated: Date
     date_updated_func: datetime_functions
     id: ID
     price: String
-    product_categories(filter: products_categories_1_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_categories_1]
     product_description: String
     product_image(filter: directus_files_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): directus_files
     product_name: String
@@ -162,30 +160,6 @@ type products_categories {
     categories_id(filter: categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): categories
     id: ID
     products_id(filter: products_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): products
-}
-
-type products_categories_1 {
-    categories_id(filter: categories_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): categories
-    id: ID
-    products_id(filter: products_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): products
-}
-
-type products_categories_1_aggregated {
-    avg: products_categories_1_aggregated_fields
-    avgDistinct: products_categories_1_aggregated_fields
-    count: products_categories_1_aggregated_fields
-    countDistinct: products_categories_1_aggregated_fields
-    group: JSON
-    max: products_categories_1_aggregated_fields
-    min: products_categories_1_aggregated_fields
-    sum: products_categories_1_aggregated_fields
-    sumDistinct: products_categories_1_aggregated_fields
-}
-
-type products_categories_1_aggregated_fields {
-    categories_id: Float
-    id: Float
-    products_id: Float
 }
 
 type products_categories_aggregated {
@@ -221,6 +195,7 @@ input categories_filter {
     date_updated: date_filter_operators
     date_updated_func: datetime_function_filter_operators
     id: number_filter_operators
+    products: products_categories_filter
     slug: string_filter_operators
     sort: number_filter_operators
     status: string_filter_operators
@@ -309,14 +284,6 @@ input posts_filter {
     user_updated: string_filter_operators
 }
 
-input products_categories_1_filter {
-    _and: [products_categories_1_filter]
-    _or: [products_categories_1_filter]
-    categories_id: categories_filter
-    id: number_filter_operators
-    products_id: products_filter
-}
-
 input products_categories_filter {
     _and: [products_categories_filter]
     _or: [products_categories_filter]
@@ -328,13 +295,13 @@ input products_categories_filter {
 input products_filter {
     _and: [products_filter]
     _or: [products_filter]
+    category: products_categories_filter
     date_created: date_filter_operators
     date_created_func: datetime_function_filter_operators
     date_updated: date_filter_operators
     date_updated_func: datetime_function_filter_operators
     id: number_filter_operators
     price: string_filter_operators
-    product_categories: products_categories_1_filter
     product_description: string_filter_operators
     product_image: directus_files_filter
     product_name: string_filter_operators

@@ -24,7 +24,7 @@ export default function Home() {
                     price={product.price}
                     key={product.id}
                     image={product.product_image.id}
-                    category={product.product_categories[0].categories_id.category_name}
+                    category={product.category[0].categories_id.category_name}
                 />)}
             </div>
         </div>

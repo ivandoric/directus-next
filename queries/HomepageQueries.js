@@ -23,7 +23,7 @@ export const HomepageProductsQuery = `
             product_image {
                 id
             }
-            product_categories {
+            category {
                 categories_id {
                     id
                     category_name
