@@ -1,18 +1,3 @@
-export const HomepagePostsQuery = `
-    #graphql
-    query HomepagePosts {
-        posts {
-            id
-            title
-            slug
-            featured_image {
-                id
-            }
-            body
-        }
-    }
-`
-
 export const HomepageProductsQuery = `
     #graphql
     query HomepageProducts {
@@ -20,6 +5,7 @@ export const HomepageProductsQuery = `
             id
             product_name
             price
+            slug
             product_image {
                 id
             }
@@ -27,6 +13,7 @@ export const HomepageProductsQuery = `
                 categories_id {
                     id
                     category_name
+                    slug
                 }
             }
         }
@@ -50,6 +37,7 @@ export const HomepageFilteredProductsQuery = `
             id
             product_name
             price
+            slug
             product_image {
                 id
             }
@@ -57,6 +45,7 @@ export const HomepageFilteredProductsQuery = `
                 categories_id {
                     id
                     category_name
+                    slug
                 }
             }
         }

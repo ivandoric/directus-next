@@ -1,26 +1,26 @@
 import Head from 'next/head'
 import {useQuery} from 'react-query'
-import {getHomepagePosts, getHomepageProducts, getHomepageCategories, getHomepageFilteredProducts} from "../queries/queries";
-import PostCard from "../components/PostCard";
+import getData from "../queries/getData";
 import ProductCard from "../components/ProductCard";
 import Filters from "../components/Filters";
 import {useEffect, useState} from "react";
+import {HomepageCategoriesQuery, HomepageFilteredProductsQuery, HomepageProductsQuery} from "../queries/HomepageQueries";
 
 
 async function handleProductFiltering({queryKey}) {
     console.log(queryKey);
     const [_] = queryKey
     if(_.length) {
-        return await getHomepageFilteredProducts(queryKey[0])
+        return await getData(HomepageFilteredProductsQuery, 'products', {categories: queryKey[0]})
     }
 
-    return await getHomepageProducts()
+    return await getData(HomepageProductsQuery, 'products')
 }
 
 export default function Home() {
     const [selectedCategories, setSelectedCategories] = useState([])
     const {data: products, isSuccess} = useQuery([selectedCategories], handleProductFiltering)
-    const {data: categories, isSuccess: categoriesSuccess } = useQuery("categories", async () => await getHomepageCategories())
+    const {data: categories, isSuccess: categoriesSuccess } = useQuery("categories", async () => await getData(HomepageCategoriesQuery, 'categories'))
 
 
     const getSelectedCategories = (category) => {
@@ -53,7 +53,8 @@ export default function Home() {
                     price={product.price}
                     key={product.id}
                     image={product.product_image.id}
-                    category={product.category[0].categories_id.category_name}
+                    category={product.category[0].categories_id}
+                    slug={product.slug}
                 />)}
             </div>
         </div>
