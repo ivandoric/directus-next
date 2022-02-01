@@ -9,6 +9,22 @@ export const SingleProductQuery = `
             product_image {
                 id
             }
+            available_colors {
+                product_colors_id {
+                    id
+                    color_value
+                    color_name
+                }
+            }
+            available_sizes {
+                product_sizes_id {
+                    id
+                    long_title
+                    short_title
+                }
+            }
+            show_colors
+            show_sizes
             category {
                 categories_id {
                     id
