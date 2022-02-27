@@ -2,6 +2,16 @@
 
 schema {
     query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    create_session_item(data: create_session_input!): session
+    create_session_items(data: [create_session_input!], filter: session_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [session]
+    delete_session_item(id: ID!): delete_one
+    delete_session_items(ids: [ID]!): delete_many
+    update_session_item(data: update_session_input!, id: ID!): session
+    update_session_items(data: update_session_input!, filter: session_filter, ids: [ID]!, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [session]
 }
 
 type Query {
@@ -29,6 +39,9 @@ type Query {
     products_product_sizes(filter: products_product_sizes_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [products_product_sizes]
     products_product_sizes_aggregated(filter: products_product_sizes_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [products_product_sizes_aggregated]
     products_product_sizes_by_id(id: ID!): products_product_sizes
+    session(filter: session_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [session]
+    session_aggregated(filter: session_filter, groupBy: [String], limit: Int, search: String, sort: [String]): [session_aggregated]
+    session_by_id(id: ID!): session
 }
 
 type categories {
@@ -72,6 +85,14 @@ type datetime_functions {
     week: Int
     weekday: Int
     year: Int
+}
+
+type delete_many {
+    ids: [ID]!
+}
+
+type delete_one {
+    id: ID!
 }
 
 type directus_files {
@@ -306,6 +327,35 @@ type products_product_sizes_aggregated_fields {
     products_id: Float
 }
 
+type session {
+    date_created: Date
+    date_created_func: datetime_functions
+    date_updated: Date
+    date_updated_func: datetime_functions
+    id: ID
+    sort: Int
+    status: String!
+    temp_order: JSON
+    user_created: String
+    user_updated: String
+}
+
+type session_aggregated {
+    avg: session_aggregated_fields
+    avgDistinct: session_aggregated_fields
+    count: session_aggregated_fields
+    countDistinct: session_aggregated_fields
+    group: JSON
+    max: session_aggregated_fields
+    min: session_aggregated_fields
+    sum: session_aggregated_fields
+    sumDistinct: session_aggregated_fields
+}
+
+type session_aggregated_fields {
+    sort: Float
+}
+
 "ISO8601 Date values"
 scalar Date
 
@@ -336,6 +386,19 @@ input categories_filter {
     user_updated: string_filter_operators
 }
 
+input create_session_input {
+    date_created: Date
+    date_created_func: datetime_functionsInput
+    date_updated: Date
+    date_updated_func: datetime_functionsInput
+    id: ID
+    sort: Int
+    status: String!
+    temp_order: JSON
+    user_created: String
+    user_updated: String
+}
+
 input date_filter_operators {
     _eq: String
     _gt: String
@@ -356,6 +419,17 @@ input datetime_function_filter_operators {
     week: number_filter_operators
     weekday: number_filter_operators
     year: number_filter_operators
+}
+
+input datetime_functionsInput {
+    day: Int
+    hour: Int
+    minute: Int
+    month: Int
+    second: Int
+    week: Int
+    weekday: Int
+    year: Int
 }
 
 input directus_files_filter {
@@ -497,6 +571,21 @@ input products_product_sizes_filter {
     products_id: products_filter
 }
 
+input session_filter {
+    _and: [session_filter]
+    _or: [session_filter]
+    date_created: date_filter_operators
+    date_created_func: datetime_function_filter_operators
+    date_updated: date_filter_operators
+    date_updated_func: datetime_function_filter_operators
+    id: string_filter_operators
+    sort: number_filter_operators
+    status: string_filter_operators
+    temp_order: string_filter_operators
+    user_created: string_filter_operators
+    user_updated: string_filter_operators
+}
+
 input string_filter_operators {
     _contains: String
     _empty: Boolean
@@ -512,4 +601,17 @@ input string_filter_operators {
     _nstarts_with: String
     _null: Boolean
     _starts_with: String
+}
+
+input update_session_input {
+    date_created: Date
+    date_created_func: datetime_functionsInput
+    date_updated: Date
+    date_updated_func: datetime_functionsInput
+    id: ID
+    sort: Int
+    status: String
+    temp_order: JSON
+    user_created: String
+    user_updated: String
 }
