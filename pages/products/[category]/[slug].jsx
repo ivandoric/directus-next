@@ -2,17 +2,20 @@ import getData from "../../../queries/getData";
 import {SingleProductQuery} from "../../../queries/SingleProductQueries";
 import Head from "next/head";
 import {useState} from "react";
-import {useQuery, useMutation} from "react-query";
+import {useQuery, useMutation, useQueryClient} from "react-query";
 import setData from "../../../helpers/setData";
 import {createSession, getSession, updateSession} from "../../../queries/sessions";
+import { v4 as uuidv4 } from 'uuid';
+import useStore from '../../../stores/temp_order';
 
 const assetsUrl = process.env.NEXT_PUBLIC_ASSETS_URL
 
 export default function ProductPage({product}){
-  const [colorId, setColorId] = useState(null)
-  const [sizeId, setSizeId] = useState(null)
+  const queryClient = useQueryClient();
+  const [colorValue, setColorValue] = useState(null)
+  const [sizeShortTitle, setSizeShortTitle] = useState(null)
   const [isSessionSet, setSession] = useState(typeof window !== 'undefined' && localStorage.getItem('session_id') !== null)
-  const {data: session, isSuccess } = useQuery("session", async () => await getData(getSession, 'session_by_id', {id: localStorage.getItem('session_id')}), {
+  const {data: session, isSuccess } = useQuery(['session'], async () => await getData(getSession, 'session_by_id', {id: localStorage.getItem('session_id')}), {
     enabled: isSessionSet
   })
   const [tempOrder, setTempOrder] = useState(session?.temp_order || [])
@@ -25,26 +28,30 @@ export default function ProductPage({product}){
     } else {
       setData(updateSession, {data: newSession, id: localStorage.getItem('session_id')})
     }
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('session')
+    }
   })
 
-  const [buttonDisabled, setButtonDisabled] = useState(false)
+  const { addToTempOrder } = useStore();
 
   const addToCart = () => {
-    let temp_order = tempOrder
-    temp_order.push({
+    addToTempOrder({
       product_id: product.id,
+      product_name: product.product_name,
       price: product.price,
       quantity: "1",
-      color_id: colorId,
-      size_id: sizeId
+      color_value: colorValue,
+      size_short_title: sizeShortTitle,
+      id: uuidv4()
     })
 
     mutation.mutate({
       status: "draft",
-      temp_order
+      temp_order: useStore.getState().tempOrder,
     })
 
-    setButtonDisabled(true)
   }
 
 
@@ -70,10 +77,10 @@ export default function ProductPage({product}){
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         type="radio"
-                        value={color.product_colors_id.id}
+                        value={color.product_colors_id.color_value}
                         className="absolute opacity-0 h-0 w-0 peer"
                         name="colors"
-                        onChange={(evt) => setColorId(evt.target.value)}
+                        onChange={(evt) => setColorValue(evt.target.value)}
                       />
                       <span
                         className="w-8 h-8 peer-checked:shadow-[0_0_0_2px_rgba(204,204,204)] rounded-2xl mr-2 border-white border-2"
@@ -94,10 +101,10 @@ export default function ProductPage({product}){
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         type="radio"
-                        value={size.product_sizes_id.id}
+                        value={size.product_sizes_id.short_title}
                         className="mr-2 absolute opacity-0 h-0 w-0 peer"
                         name="sizes"
-                        onChange={(evt) => setSizeId(evt.target.value)}
+                        onChange={(evt) => setSizeShortTitle(evt.target.value)}
                       />
                       <span
                         className="w-8 h-8 peer-checked:bg-black peer-checked:text-white peer-checked:border-black rounded mr-2 border-gray-300 border-2 flex items-center justify-center"
@@ -113,7 +120,6 @@ export default function ProductPage({product}){
           <button
             className="mt-8 bg-green-600 text-white px-4 py-2 rounded disabled:bg-gray-700"
             onClick={() => addToCart()}
-            disabled={buttonDisabled}
           >Add to cart</button>
         </div>
 

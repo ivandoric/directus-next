@@ -9,7 +9,9 @@
     "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-query": "^3.30.0"
+    "react-query": "^3.30.0",
+    "uuid": "^8.3.2",
+    "zustand": "^3.7.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
