@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { status } = useSession();
 
   return (
     <div className="relative bg-white">
@@ -27,17 +29,28 @@ export default function Header() {
               </svg>
             </button>
           </div>
+          {status === 'authenticated' ? (
+            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+                <button className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900" onClick={() => signOut({ callbackUrl: '/' })}>Sign out</button>
+              <Link href="/user-area">
+                <a className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                  User area
+                </a>
+              </Link>
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+              <Link href="/sign-in">
+                <a className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">Sign in</a>
+              </Link>
+              <Link href="/sign-up">
+                <a className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                  Sign up
+                </a>
+              </Link>
+            </div>
+          )}
 
-          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <Link href="/sign-in">
-              <a className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">Sign in</a>
-            </Link>
-            <Link href="/sign-up">
-              <a className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                Sign up
-              </a>
-            </Link>
-          </div>
         </div>
       </div>
 

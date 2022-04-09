@@ -4,3 +4,14 @@ export const createNewUser = `
         create_users_item(data: $data)
     }
 `;
+
+export const getCurrentUser = `
+    #graphql
+    query {
+        users_me {
+            email
+            first_name
+            last_name
+        }
+    }
+`;
